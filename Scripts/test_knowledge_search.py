@@ -131,8 +131,13 @@ with tempfile.TemporaryDirectory(prefix="sentient knowledge search ") as directo
     harness = temp / "KnowledgeSearchTests.swift"
     harness.write_text(fixture.replace("__SEARCH_PROPERTY__", search_property), encoding="utf-8")
     binary = temp / ("knowledge-search.exe" if sys.platform == "win32" else "knowledge-search")
-    subprocess.run([
-        args.swiftc, "-swift-version", "5", "-default-isolation", "MainActor",
+    compiler_args = [args.swiftc, "-swift-version", "5", "-default-isolation", "MainActor"]
+    if sys.platform == "darwin":
+        sdk = subprocess.check_output(
+            ["xcrun", "--sdk", "macosx", "--show-sdk-path"], text=True,
+        ).strip()
+        compiler_args += ["-sdk", sdk]
+    subprocess.run(compiler_args + [
         str(APP / "Views/Knowledge/VaultTree.swift"), str(harness), "-o", str(binary),
     ], check=True)
     result = subprocess.run([str(binary), str(temp / "Vault")])
