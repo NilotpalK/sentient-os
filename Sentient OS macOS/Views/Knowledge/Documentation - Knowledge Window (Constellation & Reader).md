@@ -81,11 +81,8 @@ voice. `WindowChrome` forces the transparent title bar at launch.
 Run `python Scripts/test_knowledge_search.py` with Swift 6.2+ on Windows or macOS. The harness compiles
 the production vault loader and the reader's search property against disposable Markdown fixtures;
 it checks content/title matches, exclusions, snapshot caching and reloads without accessing a user vault.
-The `.github/workflows/macos.yml` workflow runs the same checks on an Apple Silicon macOS runner
-with Xcode 26.6, then builds the full Debug app with release signing disabled. Build/test logs and
-the Xcode result bundle are retained for seven days. It runs for PRs targeting `main`, pushes to
-`main`/`fix/**`/`feat/**`, and manual dispatch. This checks compilation and the search behavior;
-interactive UI and system-permission acceptance still require a real app session.
+The full app and its SwiftUI integration require an Xcode build on macOS. Interactive UI and
+system-permission acceptance still require a real app session.
 
 ## Related docs
 
